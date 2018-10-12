@@ -59,7 +59,7 @@ public class i2e1_adapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder>
             UserViewHolder uvh=(UserViewHolder)holder;
             uvh.userName.setText(users.get(position).getUserName());
             Log.d("image", users.get(position).getDp_url());
-            Picasso.with(context).load("https"+users.get(position).getDp_url().substring(4)).resize(120, 120).transform(new CircleTransform()).into(uvh.dp);
+            Picasso.with(context).load("https"+users.get(position).getDp_url().substring(4)).resize(120, 120).transform(new CircleTransform()).placeholder(R.drawable.icons30).into(uvh.dp);
             GridLayoutManager llm = new GridLayoutManager(context, 2);
             uvh.pics.setLayoutManager(llm);
             List<String> a = new ArrayList<>();
@@ -71,8 +71,8 @@ public class i2e1_adapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder>
             uvh.userName.setText(users.get(position).getUserName());
             Log.d("image", "https"+users.get(position).getDp_url().substring(4));
             String u="https"+users.get(position).getDp_url().substring(4);
-            Picasso.with(context).load(u).resize(120, 120).transform(new CircleTransform()).into(uvh.dp);
-            Picasso.with(context).load("https"+users.get(position).getPics_urls().get(0).substring(4)).resize(width, (int) (width/2.2)).into(uvh.pics1);
+            Picasso.with(context).load(u).resize(120, 120).transform(new CircleTransform()).placeholder(R.drawable.icons30).into(uvh.dp);
+            Picasso.with(context).load("https"+users.get(position).getPics_urls().get(0).substring(4)).resize(width, (int) (width/2.2)).placeholder(R.drawable.icons90).into(uvh.pics1);
             GridLayoutManager llm = new GridLayoutManager(context, 2);
             uvh.pics.setLayoutManager(llm);
             List<String> a = new ArrayList<>();

@@ -35,7 +35,7 @@ public class i2e1_gallery_adapter extends RecyclerView.Adapter<i2e1_gallery_adap
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-            Picasso.with(context).load("https"+users.get(position).substring(4)).resize((int)width/2, (int) (width/2.2)).into(holder.gallery);
+            Picasso.with(context).load("https"+users.get(position).substring(4)).resize((int)width/2, (int) (width/2.2)).placeholder(R.drawable.icons90).into(holder.gallery);
 
     }
 
