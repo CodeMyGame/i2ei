@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,7 +61,7 @@ public class i2e1_adapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder>
             UserViewHolder uvh=(UserViewHolder)holder;
             uvh.userName.setText(users.get(position).getUserName());
             Log.d("image", users.get(position).getDp_url());
-            Picasso.with(context).load("https"+users.get(position).getDp_url().substring(4)).resize(120, 120).transform(new CircleTransform()).placeholder(R.drawable.icons30).into(uvh.dp);
+            Picasso.with(context).load("https"+users.get(position).getDp_url().substring(4)).resize(80, 80).transform(new CircleTransform()).placeholder(R.drawable.icons30).into(uvh.dp);
             GridLayoutManager llm = new GridLayoutManager(context, 2);
             uvh.pics.setLayoutManager(llm);
             List<String> a = new ArrayList<>();
@@ -72,8 +74,8 @@ public class i2e1_adapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder>
             Log.d("image", "https"+users.get(position).getDp_url().substring(4));
             String u="https"+users.get(position).getDp_url().substring(4);
             uvh.pics1.setMinimumWidth(width);
-            Picasso.with(context).load(u).resize(120, 120).transform(new CircleTransform()).placeholder(R.drawable.icons30).into(uvh.dp);
-            Picasso.with(context).load("https"+users.get(position).getPics_urls().get(0).substring(4)).resize(width, (int) (width/2.2)).placeholder(R.drawable.icons90).into(uvh.pics1);
+            Picasso.with(context).load(u).resize(80, 80).transform(new CircleTransform()).placeholder(R.drawable.icons30).into(uvh.dp);
+            Picasso.with(context).load("https"+users.get(position).getPics_urls().get(0).substring(4,23)+width/2+"/120"+users.get(position).getPics_urls().get(0).substring(30)).resize(width, 120).transform(new RoundedTransformation(15,0)).placeholder(R.drawable.icons30).into(uvh.pics1);
             GridLayoutManager llm = new GridLayoutManager(context, 2);
             uvh.pics.setLayoutManager(llm);
             List<String> a = new ArrayList<>();
@@ -165,6 +167,39 @@ public class i2e1_adapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder>
         @Override
         public String key() {
             return "circle";
+        }
+    }
+    public class RoundedTransformation implements com.squareup.picasso.Transformation {
+        private final int radius;
+        private final int margin;  // dp
+
+        // radius is corner radii in dp
+        // margin is the board in dp
+        public RoundedTransformation(final int radius, final int margin) {
+            this.radius = radius;
+            this.margin = margin;
+        }
+
+        @Override
+        public Bitmap transform(final Bitmap source) {
+            final Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setShader(new BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+
+            Bitmap output = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(output);
+            canvas.drawRoundRect(new RectF(margin, margin, source.getWidth() - margin, source.getHeight() - margin), radius, radius, paint);
+
+            if (source != output) {
+                source.recycle();
+            }
+
+            return output;
+        }
+
+        @Override
+        public String key() {
+            return "rounded";
         }
     }
 
